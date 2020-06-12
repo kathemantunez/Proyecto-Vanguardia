@@ -6,22 +6,18 @@
   },
   "resource": {
     "name": "BotAyudame",
-    "version": "1",
+    "version": "2",
     "intents": [
       {
         "name": "Recordatorio",
-        "version": "5",
+        "version": "9",
         "fulfillmentActivity": {
           "type": "ReturnIntent"
         },
         "sampleUtterances": [
-          "Agendar {record}",
-          "Recordarme {record}",
-          "Agregar tarjeta {MisTarjetasSlot}",
-          "Mis tarjetas {MisTarjetasSlot}",
-          "Tareas pendientes {Tareas}",
-          "Agregar deposito {MisTarjetasSlot}",
-          "Agregar retiro {MisTarjetasSlot}"
+          "Agendar ",
+          "Recordarme",
+          "Tareas pendientes {Tareas}"
         ],
         "slots": [
           {
@@ -43,41 +39,6 @@
           },
           {
             "sampleUtterances": [],
-            "slotType": "MisTarjetasSlot",
-            "slotTypeVersion": "1",
-            "obfuscationSetting": "NONE",
-            "slotConstraint": "Optional",
-            "valueElicitationPrompt": {
-              "messages": [
-                {
-                  "contentType": "PlainText",
-                  "content": "Qué tipo de tarjeta desea agregar (VISA, MASTER CARD)?)"
-                }
-              ],
-              "maxAttempts": 2
-            },
-            "priority": 2,
-            "name": "MisTarjetasSlot"
-          },
-          {
-            "sampleUtterances": [],
-            "slotType": "AMAZON.DATE",
-            "obfuscationSetting": "NONE",
-            "slotConstraint": "Required",
-            "valueElicitationPrompt": {
-              "messages": [
-                {
-                  "contentType": "PlainText",
-                  "content": "Está bien"
-                }
-              ],
-              "maxAttempts": 2
-            },
-            "priority": 6,
-            "name": "record"
-          },
-          {
-            "sampleUtterances": [],
             "slotType": "Tareas",
             "slotTypeVersion": "1",
             "obfuscationSetting": "NONE",
@@ -89,6 +50,7 @@
                   "content": "Qué tipo de tarea desea agregar (Salud, Oficio, Cita, Comprar)?"
                 }
               ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"subTitle\":\"Seleccione un botón\",\"title\":\"Tipo de tarea\",\"buttons\":[{\"text\":\"Ejercicio\",\"value\":\"Ejercicio\"},{\"text\":\"Salud\",\"value\":\"Salud\"},{\"text\":\"Cita\",\"value\":\"Cita\"},{\"text\":\"Comprar\",\"value\":\"Comprar\"},{\"text\":\"Oficio\",\"value\":\"Oficio\"}]}]}",
               "maxAttempts": 2
             },
             "priority": 3,
@@ -121,22 +83,43 @@
             }
           ]
         }
+      },
+      {
+        "name": "TarjetasIntent",
+        "version": "6",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Agregar deposito ",
+          "Agregar retiro",
+          "Mis tarjetas ",
+          "Agregar tarjeta "
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "MisTarjetasSlot",
+            "slotTypeVersion": "1",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Seleccione el tipo de tarjeta"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"subTitle\":\"Seleccione un botón\",\"title\":\"Seleccione el tipo de tarjeta\",\"buttons\":[{\"text\":\"VISA\",\"value\":\"VISA\"},{\"text\":\"Master Card\",\"value\":\"Master Card\"}]}]}",
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "MisTarjetasSlot"
+          }
+        ]
       }
     ],
     "slotTypes": [
-      {
-        "name": "MisTarjetasSlot",
-        "version": "1",
-        "enumerationValues": [
-          {
-            "value": "VISA"
-          },
-          {
-            "value": "Master Card"
-          }
-        ],
-        "valueSelectionStrategy": "ORIGINAL_VALUE"
-      },
       {
         "name": "Tareas",
         "version": "1",
@@ -158,6 +141,19 @@
           },
           {
             "value": "Trabajo"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "name": "MisTarjetasSlot",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "VISA"
+          },
+          {
+            "value": "Master Card"
           }
         ],
         "valueSelectionStrategy": "ORIGINAL_VALUE"
