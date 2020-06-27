@@ -6,18 +6,17 @@
   },
   "resource": {
     "name": "BotAyudame",
-    "version": "2",
+    "version": "3",
     "intents": [
       {
         "name": "Recordatorio",
-        "version": "9",
+        "version": "14",
         "fulfillmentActivity": {
           "type": "ReturnIntent"
         },
         "sampleUtterances": [
-          "Agendar ",
-          "Recordarme",
-          "Tareas pendientes {Tareas}"
+          "Agendar",
+          "Recordarme"
         ],
         "slots": [
           {
@@ -47,10 +46,10 @@
               "messages": [
                 {
                   "contentType": "PlainText",
-                  "content": "Qué tipo de tarea desea agregar (Salud, Oficio, Cita, Comprar)?"
+                  "content": "Qué tipo de tarea desea agregar?"
                 }
               ],
-              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"subTitle\":\"Seleccione un botón\",\"title\":\"Tipo de tarea\",\"buttons\":[{\"text\":\"Ejercicio\",\"value\":\"Ejercicio\"},{\"text\":\"Salud\",\"value\":\"Salud\"},{\"text\":\"Cita\",\"value\":\"Cita\"},{\"text\":\"Comprar\",\"value\":\"Comprar\"},{\"text\":\"Oficio\",\"value\":\"Oficio\"}]}]}",
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"imageUrl\":\"https://lh3.googleusercontent.com/proxy/KyAKKK7kNQN4Ii-VKob8El80-gxXLWq_z1NnTCU5FZdq8cQcWCJcnaWGs7olV1ixy0idKsx9-s8s_a3phWYaTAV7V-M9ILb-GH7Z__AWGRvPgSx--DdL0i-ESrR8015nciGt2gRI62lHJ9dD9vQYXVZgqHBTi-dwnRJy\",\"subTitle\":\"Seleccione un botón\",\"title\":\"Qué tipo de tarea desea agregar?\",\"buttons\":[{\"text\":\"Ejercicio\",\"value\":\"Ejercicio\"},{\"text\":\"Salud\",\"value\":\"Salud\"},{\"text\":\"Cita\",\"value\":\"Cita\"},{\"text\":\"Comprar\",\"value\":\"Comprar\"},{\"text\":\"Oficio\",\"value\":\"Oficio\"}]}]}",
               "maxAttempts": 2
             },
             "priority": 3,
@@ -79,14 +78,14 @@
             {
               "groupNumber": 1,
               "contentType": "PlainText",
-              "content": "Guardado exitosamente!"
+              "content": "Guardado exitosamente! {Tareas} el día de {date} a las {time}"
             }
           ]
         }
       },
       {
         "name": "TarjetasIntent",
-        "version": "6",
+        "version": "8",
         "fulfillmentActivity": {
           "type": "ReturnIntent"
         },
@@ -97,6 +96,23 @@
           "Agregar tarjeta "
         ],
         "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.AlphaNumeric",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Escriba la fecha de caducidad de su tarjeta"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "fecha"
+          },
           {
             "sampleUtterances": [],
             "slotType": "MisTarjetasSlot",
@@ -110,13 +126,79 @@
                   "content": "Seleccione el tipo de tarjeta"
                 }
               ],
-              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"subTitle\":\"Seleccione un botón\",\"title\":\"Seleccione el tipo de tarjeta\",\"buttons\":[{\"text\":\"VISA\",\"value\":\"VISA\"},{\"text\":\"Master Card\",\"value\":\"Master Card\"}]}]}",
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"imageUrl\":\"https://www.odecu.cl/wp-content/uploads/2020/05/10.10.1070.jpg\",\"subTitle\":\"Seleccione un botón\",\"title\":\"Seleccione el tipo de tarjeta\",\"buttons\":[{\"text\":\"VISA\",\"value\":\"VISA\"},{\"text\":\"Master Card\",\"value\":\"Master Card\"}]}]}",
               "maxAttempts": 2
             },
             "priority": 1,
             "name": "MisTarjetasSlot"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Escriba el código de seguridad"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 4,
+            "name": "nu_cod"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Escriba el número de tarjeta sin guiones"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 2,
+            "name": "nu_tar"
           }
-        ]
+        ],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "Se ha agregado su tarjeta {MisTarjetasSlot} con número {nu_tar}!"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Begin",
+        "version": "4",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Hola",
+          "Buenas",
+          "Hi",
+          "Hey"
+        ],
+        "slots": [],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "Bienvenido, escriba lo que desea hacer agendar o agregar tarjeta"
+            }
+          ]
+        }
       }
     ],
     "slotTypes": [
