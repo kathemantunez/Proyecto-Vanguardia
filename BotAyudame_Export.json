@@ -6,7 +6,7 @@
   },
   "resource": {
     "name": "BotAyudame",
-    "version": "3",
+    "version": "4",
     "intents": [
       {
         "name": "Recordatorio",
@@ -85,14 +85,11 @@
       },
       {
         "name": "TarjetasIntent",
-        "version": "8",
+        "version": "11",
         "fulfillmentActivity": {
           "type": "ReturnIntent"
         },
         "sampleUtterances": [
-          "Agregar deposito ",
-          "Agregar retiro",
-          "Mis tarjetas ",
           "Agregar tarjeta "
         ],
         "slots": [
@@ -172,7 +169,7 @@
             {
               "groupNumber": 1,
               "contentType": "PlainText",
-              "content": "Se ha agregado su tarjeta {MisTarjetasSlot} con número {nu_tar}!"
+              "content": "Se ha agregado su tarjeta {MisTarjetasSlot} con número de {nu_tar}"
             }
           ]
         }
@@ -196,6 +193,45 @@
               "groupNumber": 1,
               "contentType": "PlainText",
               "content": "Bienvenido, escriba lo que desea hacer agendar o agregar tarjeta"
+            }
+          ]
+        }
+      },
+      {
+        "name": "Ret_dep",
+        "version": "1",
+        "fulfillmentActivity": {
+          "type": "ReturnIntent"
+        },
+        "sampleUtterances": [
+          "Agregar deposito ",
+          "Agregar retiro "
+        ],
+        "slots": [
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Required",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Agregue la cantidad qué deposito/retiro"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "dep_ret"
+          }
+        ],
+        "conclusionStatement": {
+          "messages": [
+            {
+              "groupNumber": 1,
+              "contentType": "PlainText",
+              "content": "Gracias se ha registrado su cambio!"
             }
           ]
         }
