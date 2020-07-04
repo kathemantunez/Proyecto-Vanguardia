@@ -6,17 +6,13 @@
   },
   "resource": {
     "name": "BotAyudame",
-    "version": "7",
+    "version": "8",
     "intents": [
       {
         "name": "Recordatorio",
-        "version": "16",
+        "version": "17",
         "fulfillmentActivity": {
-          "codeHook": {
-            "uri": "arn:aws:lambda:us-east-1:355734725880:function:functLambdaRes",
-            "messageVersion": "1.0"
-          },
-          "type": "CodeHook"
+          "type": "ReturnIntent"
         },
         "sampleUtterances": [
           "Agendar",
@@ -93,16 +89,7 @@
             "priority": 6,
             "name": "time"
           }
-        ],
-        "conclusionStatement": {
-          "messages": [
-            {
-              "groupNumber": 1,
-              "contentType": "PlainText",
-              "content": "Guardado exitosamente! {Tareas} el día de {date} a las {time}"
-            }
-          ]
-        }
+        ]
       },
       {
         "name": "TarjetasIntent",
@@ -197,13 +184,9 @@
       },
       {
         "name": "Begin",
-        "version": "12",
+        "version": "13",
         "fulfillmentActivity": {
-          "codeHook": {
-            "uri": "arn:aws:lambda:us-east-1:355734725880:function:bienvenida",
-            "messageVersion": "1.0"
-          },
-          "type": "CodeHook"
+          "type": "ReturnIntent"
         },
         "sampleUtterances": [
           "Hola",
@@ -222,7 +205,7 @@
               "messages": [
                 {
                   "contentType": "PlainText",
-                  "content": "Bienvenido!"
+                  "content": "Bienvenido/a!"
                 }
               ],
               "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"imageUrl\":\"http://www.centromedicolasamaritana.com/wp-content/uploads/2012/03/bienvenido1.jpg\",\"subTitle\":\"Seleccione un botón\",\"title\":\"Bienvenido!\",\"buttons\":[{\"text\":\"Recordarme\",\"value\":\"Recordarme\"},{\"text\":\"Agregar Tarjeta\",\"value\":\"Agregar Tarjeta\"},{\"text\":\"Transacciones \",\"value\":\"Transacciones\"}]}]}",
@@ -235,13 +218,9 @@
       },
       {
         "name": "Ret_dep",
-        "version": "9",
+        "version": "10",
         "fulfillmentActivity": {
-          "codeHook": {
-            "uri": "arn:aws:lambda:us-east-1:355734725880:function:funciondeposito_retiro",
-            "messageVersion": "1.0"
-          },
-          "type": "CodeHook"
+          "type": "ReturnIntent"
         },
         "sampleUtterances": [
           "Transacciones"
