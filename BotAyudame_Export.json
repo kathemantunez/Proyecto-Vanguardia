@@ -6,7 +6,7 @@
   },
   "resource": {
     "name": "BotAyudame",
-    "version": "6",
+    "version": "7",
     "intents": [
       {
         "name": "Recordatorio",
@@ -106,7 +106,7 @@
       },
       {
         "name": "TarjetasIntent",
-        "version": "11",
+        "version": "12",
         "fulfillmentActivity": {
           "type": "ReturnIntent"
         },
@@ -190,14 +190,14 @@
             {
               "groupNumber": 1,
               "contentType": "PlainText",
-              "content": "Se ha agregado su tarjeta {MisTarjetasSlot} con número de {nu_tar}"
+              "content": "Se ha agregado su tarjeta {MisTarjetasSlot} con número de tarjeta {nu_tar}"
             }
           ]
         }
       },
       {
         "name": "Begin",
-        "version": "8",
+        "version": "12",
         "fulfillmentActivity": {
           "codeHook": {
             "uri": "arn:aws:lambda:us-east-1:355734725880:function:bienvenida",
@@ -215,7 +215,7 @@
           {
             "sampleUtterances": [],
             "slotType": "Bienvenido",
-            "slotTypeVersion": "4",
+            "slotTypeVersion": "7",
             "obfuscationSetting": "NONE",
             "slotConstraint": "Required",
             "valueElicitationPrompt": {
@@ -225,61 +225,82 @@
                   "content": "Bienvenido!"
                 }
               ],
-              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"imageUrl\":\"http://www.centromedicolasamaritana.com/wp-content/uploads/2012/03/bienvenido1.jpg\",\"subTitle\":\"Seleccione un botón\",\"title\":\"Bienvenido!\",\"buttons\":[{\"text\":\"Recordarme\",\"value\":\"Recordarme\"},{\"text\":\"Agregar Tarjeta\",\"value\":\"Agregar Tarjeta\"},{\"text\":\"Agregar Retiro\",\"value\":\"Agregar Retiro\"},{\"text\":\"Agregar Deposito\",\"value\":\"Agregar Deposito\"}]}]}",
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"imageUrl\":\"http://www.centromedicolasamaritana.com/wp-content/uploads/2012/03/bienvenido1.jpg\",\"subTitle\":\"Seleccione un botón\",\"title\":\"Bienvenido!\",\"buttons\":[{\"text\":\"Recordarme\",\"value\":\"Recordarme\"},{\"text\":\"Agregar Tarjeta\",\"value\":\"Agregar Tarjeta\"},{\"text\":\"Transacciones \",\"value\":\"Transacciones\"}]}]}",
               "maxAttempts": 2
             },
             "priority": 1,
             "name": "bienve"
           }
-        ],
-        "conclusionStatement": {
-          "messages": [
-            {
-              "groupNumber": 1,
-              "contentType": "PlainText",
-              "content": "Bienvenido, escriba lo que desea hacer agendar o agregar tarjeta"
-            }
-          ]
-        }
+        ]
       },
       {
         "name": "Ret_dep",
-        "version": "1",
+        "version": "9",
         "fulfillmentActivity": {
-          "type": "ReturnIntent"
+          "codeHook": {
+            "uri": "arn:aws:lambda:us-east-1:355734725880:function:funciondeposito_retiro",
+            "messageVersion": "1.0"
+          },
+          "type": "CodeHook"
         },
         "sampleUtterances": [
-          "Agregar deposito ",
-          "Agregar retiro "
+          "Transacciones"
         ],
         "slots": [
           {
             "sampleUtterances": [],
-            "slotType": "AMAZON.NUMBER",
+            "slotType": "dep_ret",
+            "slotTypeVersion": "1",
             "obfuscationSetting": "NONE",
             "slotConstraint": "Required",
             "valueElicitationPrompt": {
               "messages": [
                 {
                   "contentType": "PlainText",
-                  "content": "Agregue la cantidad qué deposito/retiro"
+                  "content": "Escoja su transacción bancaria"
+                }
+              ],
+              "responseCard": "{\"version\":1,\"contentType\":\"application/vnd.amazonaws.card.generic\",\"genericAttachments\":[{\"imageUrl\":\"https://www.psyma.com/assets/Uploads/BancaOnline.jpg\",\"subTitle\":\"Seleccione un botón\",\"title\":\"Escoja su transacción bancaria\",\"buttons\":[{\"text\":\"Agregar Deposito\",\"value\":\"Agregar Deposito\"},{\"text\":\"Agregar Retiro\",\"value\":\"Agregar Retiro\"}]}]}",
+              "maxAttempts": 2
+            },
+            "priority": 1,
+            "name": "de_re"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Optional",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Agregue la cantidad del deposito"
                 }
               ],
               "maxAttempts": 2
             },
-            "priority": 1,
-            "name": "dep_ret"
+            "priority": 2,
+            "name": "dep"
+          },
+          {
+            "sampleUtterances": [],
+            "slotType": "AMAZON.NUMBER",
+            "obfuscationSetting": "NONE",
+            "slotConstraint": "Optional",
+            "valueElicitationPrompt": {
+              "messages": [
+                {
+                  "contentType": "PlainText",
+                  "content": "Agregue la cantidad del retiro"
+                }
+              ],
+              "maxAttempts": 2
+            },
+            "priority": 3,
+            "name": "ret"
           }
-        ],
-        "conclusionStatement": {
-          "messages": [
-            {
-              "groupNumber": 1,
-              "contentType": "PlainText",
-              "content": "Gracias se ha registrado su cambio!"
-            }
-          ]
-        }
+        ]
       }
     ],
     "slotTypes": [
@@ -323,19 +344,29 @@
       },
       {
         "name": "Bienvenido",
-        "version": "4",
+        "version": "7",
         "enumerationValues": [
           {
-            "value": "Agregar Deposito"
+            "value": "Transacciones"
           },
           {
             "value": "Agregar Tarjeta"
           },
           {
-            "value": "Agregar Retiro"
+            "value": "Recordarme"
+          }
+        ],
+        "valueSelectionStrategy": "ORIGINAL_VALUE"
+      },
+      {
+        "name": "dep_ret",
+        "version": "1",
+        "enumerationValues": [
+          {
+            "value": "Agregar Deposito"
           },
           {
-            "value": "Recordarme"
+            "value": "Agregar Retiro"
           }
         ],
         "valueSelectionStrategy": "ORIGINAL_VALUE"
